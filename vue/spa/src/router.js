@@ -1,22 +1,26 @@
 import Router from 'vue-router'
 import Vue from 'vue'
-import t from './components/t.js'
+import t from './components/t.jsx'
 Vue.use(Router)
 let router;
-if(module.hot) {
-    module.hot.accept(['./components/t.js','./components/lazy.js'], function() {
-        console.log('Accepting the updated printMe module!');
-        router = createRouter()
-    })
-}
-const routes = [
+// if(module.hot) {
+//     module.hot.accept(['./components/t.js','./components/lazy.js'], function() {
+//         console.log('Accepting the updated printMe module!');
+//         router = createRouter()
+//     })
+// }
+let routes = [
     {
         path: '/',
         component: t
     },
     {
         path: '/lazy-load',
-        component: () => import(/* webpackChunkName: "lazy" */ './components/lazy.js')  //  懒加载
+        component: () => import(/* webpackChunkName: "lazy" */ './components/lazy.jsx')  //  懒加载
+    },
+    {
+        path: '/a',
+        component: () => import(/* webpackChunkName: "a" */ './components/a.vue')  //  懒加载
     }
 ]
 function createRouter() {
@@ -25,4 +29,4 @@ function createRouter() {
     })
 }
 router = createRouter()
-export default router
+export default router;

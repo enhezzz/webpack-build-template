@@ -3,6 +3,7 @@
     <img src="./assets/qrcode.jpg" alt class="dc-code">
     <router-link to="/">首页</router-link>
     <router-link to="/lazy-load">懒加载</router-link>
+    <router-link to="/a">懒加载</router-link>
     <router-view></router-view>
   </div>
 </template>

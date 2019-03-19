@@ -1,6 +1,8 @@
 // const webpack = require()
 const path = require('path')
+const webpack = require("webpack")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+// const vueJsxHotLoader = require("../config/loader/vue-jsx-hot-loader")
 const config = {
     context: path.join(__dirname, '../'),
     entry: ['./src/main.js'],
@@ -16,7 +18,16 @@ const config = {
         rules: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader'
+                use: [
+                    'babel-loader'
+                ]
+            },
+            {
+                test: /\.jsx$/,
+                use: [
+                    'babel-loader',
+                    'vue-jsx-hot-loader',
+                ]
             },
             {
                 test: /\.vue$/,
@@ -46,7 +57,7 @@ const config = {
     },
     resolve: {
         alias: {
-
+            "@": path.join(__dirname,"../src")
         },
         extensions: ['.js', '.vue', '.json', 'jsx', '.wasm']
     },
@@ -58,7 +69,10 @@ const config = {
     // devtool: "cheap-module-source-map",
     target: "web",
     plugins: [
-        new VueLoaderPlugin()
-    ]
+        new VueLoaderPlugin(),
+        new webpack.ProgressPlugin(function handler(percentage, msg) {
+            console.log(`\x1b[32m${(percentage.toFixed(2) * 100)}%`, '\x1b[0m==========>',`\x1b[36m \x1b[4m${msg}\x1b[0m`);
+          })
+    ],
 }
 module.exports = config

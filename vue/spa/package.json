@@ -23,6 +23,9 @@
     "memory-fs": "^0.4.1",
     "mini-css-extract-plugin": "^0.5.0",
     "url-loader": "^1.1.2",
+    "uuid": "^3.3.2",
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-jsx-hot-loader": "^1.4.0",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1",
     "webpack-dev-middleware": "^3.5.0",
@@ -37,7 +40,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node build/dev.js --jsx",
     "start": "npm run dev",
-    "build": "node build/server.js"
+    "build": "node build/server.js --jsx"
   },
   "keywords": [],
   "author": "",

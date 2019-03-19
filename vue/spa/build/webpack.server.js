@@ -11,6 +11,19 @@ const CONF = {
     output: {
         filename: "[name].[chunkhash].js",
     },
+    module: {
+        rules: [
+          {
+            test: /\.css$/,
+            use: [
+              {
+                loader: MiniCssExtractPlugin.loader
+              },
+              "css-loader"
+            ]
+          }
+        ]
+      },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'production',
@@ -19,12 +32,13 @@ const CONF = {
             // hash: true, //  append a unique webpack compilation hash to all included scripts and CSS files, useful for cache busting
         }),
         new MiniCssExtractPlugin({
-            filename: 'style.css'
+            filename: "[name].css",
+            chunkFilename: "[id].css"
         }),
-        new webpack.ProgressPlugin((percentage, message, ...args) => {
-            // e.g. Output each progress message directly to the console:
-            console.info(percentage*100, message, ...args);
-        }),
+        // new webpack.ProgressPlugin((percentage, message, ...args) => {
+        //     // e.g. Output each progress message directly to the console:
+        //     console.info(percentage*100, message, ...args);
+        // }),
         new CleanWebpackPlugin('dist', {
             root: path.join(__dirname, '../')
         })

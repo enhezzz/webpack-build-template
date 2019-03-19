@@ -13,14 +13,15 @@ const CONF = {
     output: {
         filename: "[name].[hash].js"
     },
-    devServer: {
-        proxy: devConf.server.proxy,
-        compress: true, // enable gzip compression
-        historyApiFallback: true, // true for index.html upon 404, object for multiple paths
-        hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
-        https: false, // true for self-signed, object for cert authority
-        noInfo: true, // only errors & warns on hot reload,
-    },
+    // devServer: {
+    //     proxy: devConf.server.proxy,
+    //     compress: true, // enable gzip compression
+    //     historyApiFallback: true, // true for index.html upon 404, object for multiple paths
+    //     hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
+    //     https: false, // true for self-signed, object for cert authority
+    //     noInfo: true, // only errors & warns on hot reload,
+    // },
+    devtool: "cheap-module-eval-source-map",
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({

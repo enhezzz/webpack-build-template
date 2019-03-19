@@ -1,4 +1,15 @@
 const webpack = require('webpack');
+const os=require('os');
+const ipAddress = []
+var ifaces=os.networkInterfaces();
+for (var dev in ifaces) {
+  ifaces[dev].forEach(function(details){
+    if (details.family=='IPv4') {
+        ipAddress.push(details.address)
+    }
+  });
+}
+
 const CONFIG = require('./webpack.dev')
 const MemoryFS = require('memory-fs');
 const merge = require('webpack-merge')
@@ -20,11 +31,18 @@ compiler.watch({
     poll: 1000
   }, (err, stats) => {
     // Print watch/build result here...
-    console.log(`c at:
-    local: http://localhost:${PORT}`)
-    // console.log(fs.readFileSync(path.join(__dirname, "../dist/index.html")))
-    
-    // console.log(stats);
+    if(err) {
+        console.error("you may be have some misconfiguration - -,please check out!ヽ(￣ω￣(￣ω￣〃)ゝ")
+    }else if(stats.hasErrors()) {
+        const info = stats.toJson();
+        console.error(info.errors)
+    }
+    console.log(stats.toString());
+    console.log("\x1b[32mbuild successfully!!! enjoy~\t\t\t\t\t（づ￣3￣）づ╭❤～ (●'◡'●)\x1b[0m")
+    console.log(`listening at:
+    \x1b[33m local: \x1b[32m http://${ipAddress[1]}:${PORT}
+    \x1b[33m network: \x1b[32m http://${ipAddress[0]}:${PORT}`)
+    console.log("\x1b[0m")
   })
 let express = require('express');
 let app = express();
@@ -41,6 +59,7 @@ app.use((req,res,next)=> {
             }
         });
     }else {
+        if(req.path == "/favicon.ico") {res.status(404).end();return;}
         let pathRule = /(\/.*)\??.*/
         let filePath = req.path.replace(pathRule,(matchedStr,$1)=> {
             return $1
@@ -74,7 +93,6 @@ app.use((req,res,next)=> {
 // // console.log(fs.readFileSync("/a/test/dir/file.txt"))
 //     // console.log(fs.readFileSync('/dist/index.html'))
 // })
-app.listen(PORT, 'localhost')
-// server.listen(80,'localhost', ()=> {
-//   console.log(`--------------------------------------listening ${PORT} port-----------------------------------------------------`)
-// })
+ipAddress.forEach((address)=> {
+    app.listen(PORT, address)
+})
