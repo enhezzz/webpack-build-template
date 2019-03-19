@@ -19,6 +19,7 @@ const devConf = require('../config/devConf.json')
 const path = require('path')
 const util = require('util')
 process.env.SYNTAX = process.argv[2] =="--jsx"? "jsx": "template";
+process.env.NODE_ENV = "development"
 // const http = require('http')
 const PORT = process.env.PORT || devConf.server.port || 3000
 // const server = http.createServer(middleware(compiler))

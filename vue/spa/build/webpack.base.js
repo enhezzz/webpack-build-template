@@ -2,7 +2,9 @@
 const path = require('path')
 const webpack = require("webpack")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const vueJsxHotLoader = require("../config/loader/vue-jsx-hot-loader")
+console.log('------------'+process.env.NODE_ENV)
 const config = {
     context: path.join(__dirname, '../'),
     entry: ['./src/main.js'],
@@ -36,7 +38,7 @@ const config = {
             {
                 test: /\.css$/,
                 use: [
-                    'vue-style-loader',
+                    process.env.NODE_ENV !== 'production'?'vue-style-loader': MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
             },
@@ -70,7 +72,7 @@ const config = {
     target: "web",
     plugins: [
         new VueLoaderPlugin(),
-        new webpack.ProgressPlugin(function handler(percentage, msg) {
+        process.env.NODE_ENV !== 'production'?console.log(process.env.NODE_ENV):new webpack.ProgressPlugin(function handler(percentage, msg) {
             console.log(`\x1b[32m${(percentage.toFixed(2) * 100)}%`, '\x1b[0m==========>',`\x1b[36m \x1b[4m${msg}\x1b[0m`);
           })
     ],
