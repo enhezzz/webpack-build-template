@@ -24,7 +24,7 @@ process.env.NODE_ENV = "development"
 const PORT = process.env.PORT || devConf.server.port || 3000
 // const server = http.createServer(middleware(compiler))
 const fs = new MemoryFS();
-let compiler = webpack(CONFIG);
+let compiler = webpack(CONFIG());
 compiler.outputFileSystem = fs;
 compiler.watch({
     ignored: /node_modules/,
@@ -34,11 +34,12 @@ compiler.watch({
     // Print watch/build result here...
     if(err) {
         console.error("you may be have some misconfiguration - -,please check out!ヽ(￣ω￣(￣ω￣〃)ゝ")
+        return;
     }else if(stats.hasErrors()) {
-        const info = stats.toJson();
-        console.error(info.errors)
+        console.error(stats.toString());
+        return;
     }
-    console.log(stats.toString());
+    // console.log(stats.toString());
     console.log("\x1b[32mbuild successfully!!! enjoy~\t\t\t\t\t（づ￣3￣）づ╭❤～ (●'◡'●)\x1b[0m")
     console.log(`listening at:
     \x1b[33m local: \x1b[32m http://${ipAddress[1]}:${PORT}

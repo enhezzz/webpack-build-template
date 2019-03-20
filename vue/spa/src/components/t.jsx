@@ -1,7 +1,8 @@
-import "../assets/1.css"
+import css from "../assets/1.css"
 export default {
     name: "t",
     created() {
+        console.log(css)
         console.log('here is a t.jsx')
     },
     data() {
@@ -16,7 +17,7 @@ export default {
     },
     render() {
         return (
-            <div class="t">{this.$store.state.count}
+            <div class={css.t}>{this.$store.state.count}
                 <span>{this.time}</span>
                 <button onClick={this.increment.bind(this)}>点我</button>
             </div>

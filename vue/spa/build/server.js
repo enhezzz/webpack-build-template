@@ -1,8 +1,9 @@
 const webpack = require('webpack');
 const CONFIG = require('./webpack.server')
 process.env.SYNTAX = process.argv[2] =="--jsx"? "jsx": "template";
+process.env.NODE_ENV = "production"
 console.log('++++++++++++++++++++'+process.env.NODE_ENV)
-webpack(CONFIG, (err, stats) => {
+webpack(CONFIG(), (err, stats) => {
     if(err) {
         console.error("you may be have some misconfiguration - -,please check out!ヽ(￣ω￣(￣ω￣〃)ゝ")
     }else if(stats.hasErrors()) {
