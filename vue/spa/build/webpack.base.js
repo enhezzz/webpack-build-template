@@ -2,11 +2,21 @@
 const path = require('path')
 const webpack = require("webpack")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-var MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// const ProgressBar = require('progress');
 // const vueJsxHotLoader = require("../config/loader/vue-jsx-hot-loader")
+const log = require('single-line-log').stdout;
 let progressIndicatorIndex = 0;
 
 module.exports = function(env) {
+    // const bar = new ProgressBar('  compiling... [:bar] :rate/bps :percent :etas', {
+    //     complete: '=',
+    //     incomplete: ' ',
+    //     width: 20,
+    //     total: 100
+    //   });
+    // let preTick = 0,currentTick = 0;
+    let statusInfo = "compiling..."
     const config = {
         context: path.join(__dirname, '../'),
         entry: ['./src/main.js'],
@@ -24,7 +34,8 @@ module.exports = function(env) {
                     test: /\.js$/,
                     use: [
                         'babel-loader'
-                    ]
+                    ],
+                    exclude: [/node_modules/]
                 },
                 {
                     test: /\.jsx$/,
@@ -40,16 +51,16 @@ module.exports = function(env) {
                 {
                     test: /\.css$/,
                     use: [
-                        process.env.NODE_ENV !== 'production'?process.env.SYNTAX === "jsx"?"style-loader":'vue-style-loader': MiniCssExtractPlugin.loader,
+                        process.env.NODE_ENV !== 'production'?'vue-style-loader': MiniCssExtractPlugin.loader,
                         {
                             loader: "css-loader",
-                            options: {
-                              importLoaders: 1,
-                              modules: true,
-                              localIdentName: "[name]_[local]_[hash:base64:5]"  // 为了生成类名不是纯随机
-                            },
+                            // options: {
+                            //   importLoaders: 1,
+                            //   modules: true,
+                            //   localIdentName: "[name]_[local]_[hash:base64:5]"  // 为了生成类名不是纯随机
+                            // },
                           },
-                        process.env.SYNTAX === "jsx"? "postcss-loader": null
+                        // process.env.SYNTAX === "jsx"? "postcss-loader": null
                     ]
                 },
                 {
@@ -83,9 +94,21 @@ module.exports = function(env) {
         plugins: [
             new VueLoaderPlugin(),
             new webpack.ProgressPlugin(function handler(percentage, msg) {
-                progressIndicatorIndex++;
-                let progressIndicator = (new Array(progressIndicatorIndex)).fill(undefined).map(i=> "=").join("")+">"
-                console.log(`\x1b[32m${(Math.round(percentage.toFixed(2) * 100))}%`, `\x1b[0m${progressIndicator}`,`\x1b[36m \x1b[4m${msg}\x1b[0m`);
+                // progressIndicatorIndex++;
+                // let progressIndicator = (new Array(progressIndicatorIndex)).fill(undefined).map(i=> "=").join("")+">"
+                // console.log(`\x1b[32m${(Math.round(percentage.toFixed(2) * 100))}%`, `\x1b[0m${progressIndicator}`,`\x1b[36m \x1b[4m${msg}\x1b[0m`);
+                // console.log(Math.round(percentage.toFixed(2) * 100))
+                // console.log((Math.round(percentage.toFixed(2) * 100)))
+                // currentTick = (Math.round(percentage.toFixed(2) * 100))
+                // console.log((Math.round(percentage.toFixed(2) * 100)),currentTick,preTick,currentTick - preTick)
+
+                // bar.update(Math.round(percentage.toFixed(2) * 100));
+                // preTick = currentTick
+                // console.log(Math.round(percentage.toFixed(2) * 100))
+                // log.clear()
+                if(Math.round(percentage.toFixed(2) * 100) == 100) statusInfo = "finish^_^"
+                let progressIndicator = (new Array(Math.round(percentage.toFixed(2) * 100))).fill(undefined).map(i=> "=").join("")+">"
+                a = log(`\x1b[42m${statusInfo}\x1b[0m\n${progressIndicator}[ ${Math.round(percentage.toFixed(2) * 100)}% ]${msg}\n`);
               })
         ],
     }

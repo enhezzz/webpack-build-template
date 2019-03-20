@@ -38,6 +38,8 @@ compiler.watch({
     }else if(stats.hasErrors()) {
         console.error(stats.toString());
         return;
+    }else if(stats.hasWarnings()) {
+        // console.warn(stats.toString());
     }
     // console.log(stats.toString());
     console.log("\x1b[32mbuild successfully!!! enjoy~\t\t\t\t\t（づ￣3￣）づ╭❤～ (●'◡'●)\x1b[0m")

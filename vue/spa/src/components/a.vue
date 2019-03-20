@@ -1,13 +1,10 @@
-<template>
-    <div>
-        <div class="a">
-            12345
-        </div>
-    </div>
-</template>
 <script>
 export default {
-    
+    render() {
+        return (
+            <div class="a">112233</div>
+        )
+    }
 }
 </script>
 <style scoped>

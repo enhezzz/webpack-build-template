@@ -6,7 +6,8 @@ module.exports = function (api) {
     const plugins = [
         "@babel/plugin-syntax-dynamic-import"
     ];  
-    process.env.SYNTAX == "jsx"? presets.push("@vue/babel-preset-jsx"): false;
+    // process.env.SYNTAX == "jsx"? presets.push("@vue/babel-preset-jsx"): false;
+    presets.push("@vue/babel-preset-jsx")
     // process.env.SYNTAX == "jsx"? plugins.push(["react-css-modules", {
     //     "option": "value"
     //   }]): false;
