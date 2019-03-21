@@ -22,7 +22,7 @@ module.exports = function(env) {
         //     https: false, // true for self-signed, object for cert authority
         //     noInfo: true, // only errors & warns on hot reload,
         // },
-        devtool: "cheap-module-eval-source-map",
+        devtool: "cheap-eval-source-map",
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
             new HtmlWebpackPlugin({

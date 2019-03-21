@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const ProgressBar = require('progress');
 // const vueJsxHotLoader = require("../config/loader/vue-jsx-hot-loader")
 const log = require('single-line-log').stdout;
-let progressIndicatorIndex = 0;
+// let progressIndicatorIndex = 0;
 
 module.exports = function(env) {
     // const bar = new ProgressBar('  compiling... [:bar] :rate/bps :percent :etas', {

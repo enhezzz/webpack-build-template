@@ -12,12 +12,12 @@ for (var dev in ifaces) {
 
 const CONFIG = require('./webpack.dev')
 const MemoryFS = require('memory-fs');
-const merge = require('webpack-merge')
+// const merge = require('webpack-merge')
 // const webpackDevMiddleware  = require('webpack-dev-middleware');
 const webpackHotMiddleware = require("webpack-Hot-middleware")
 const devConf = require('../config/devConf.json')
 const path = require('path')
-const util = require('util')
+// const util = require('util')
 process.env.SYNTAX = process.argv[2] =="--jsx"? "jsx": "template";
 process.env.NODE_ENV = "development"
 // const http = require('http')
@@ -63,12 +63,15 @@ app.use((req,res,next)=> {
             }
         });
     }else {
-        if(req.path == "/favicon.ico") {res.status(404).end();return;}
+        if(req.path == "/favicon.ico") {
+            let faviconReadStream = fs.createReadStream(path.join(__dirname, "../public/favicon.ico"))
+            faviconReadStream.pipe(res)
+            return
+        }
         let pathRule = /(\/.*)\??.*/
         let filePath = req.path.replace(pathRule,(matchedStr,$1)=> {
             return $1
         })
-        // console.log(filePath)
         try{
             let readStream =  fs.createReadStream(path.join(__dirname,`../dist${filePath}`));
         // res.sendFile(path.join(__dirname,`../dist${filePath}`));
@@ -91,12 +94,7 @@ app.use((req,res,next)=> {
   
 })
 
-// app.get('/',()=> {
-//     console.log(fs.readFileSync(path.join(__dirname, "../dist/index.html"),"utf8"))
-// //     fs.writeFileSync("/a/test/dir/file.txt", "Hello World");
-// // console.log(fs.readFileSync("/a/test/dir/file.txt"))
-//     // console.log(fs.readFileSync('/dist/index.html'))
-// })
+
 ipAddress.forEach((address)=> {
     app.listen(PORT, address)
 })
