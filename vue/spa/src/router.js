@@ -1,32 +1,23 @@
-import Router from 'vue-router'
 import Vue from 'vue'
-import t from './components/t.jsx'
-Vue.use(Router)
-let router;
-// if(module.hot) {
-//     module.hot.accept(['./components/t.js','./components/lazy.js'], function() {
-//         console.log('Accepting the updated printMe module!');
-//         router = createRouter()
-//     })
-// }
-let routes = [
+import Router from 'vue-router'
+import Home from './views/Home.vue'
+
+Vue.use(Router);
+
+export default new Router({
+  routes: [
     {
-        path: '/',
-        component: t
+      path: '/',
+      name: 'home',
+      component: Home
     },
     {
-        path: '/lazy-load',
-        component: () => import(/* webpackChunkName: "lazy" */ './components/lazy.jsx')  //  懒加载
-    },
-    {
-        path: '/a',
-        component: () => import(/* webpackChunkName: "a" */ './components/a.vue')  //  懒加载
+      path: '/me',
+      name: 'me',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "me" */ './views/Me.vue')
     }
-]
-function createRouter() {
-    return new Router({
-        routes  // short for `routes: routes`
-    })
-}
-router = createRouter()
-export default router;
+  ]
+})

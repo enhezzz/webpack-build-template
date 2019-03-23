@@ -33,7 +33,8 @@ module.exports = function(env) {
                 {
                     test: /\.js$/,
                     use: [
-                        'babel-loader'
+                        'babel-loader',
+                        'eslint-loader'
                     ],
                     exclude: [/node_modules/]
                 },
@@ -63,6 +64,14 @@ module.exports = function(env) {
                         // process.env.SYNTAX === "jsx"? "postcss-loader": null
                     ]
                 },
+                {
+                    test: /\.scss$/,
+                    use: [
+                      'vue-style-loader',
+                      'css-loader',
+                      'sass-loader'
+                    ]
+                  },
                 {
                     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/i,
                     use: [

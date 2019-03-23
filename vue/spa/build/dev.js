@@ -15,7 +15,8 @@ const MemoryFS = require('memory-fs');
 // const merge = require('webpack-merge')
 // const webpackDevMiddleware  = require('webpack-dev-middleware');
 const webpackHotMiddleware = require("webpack-Hot-middleware")
-const proxyMiddleware = require("./middleware/proxy")
+const proxy = require('http-proxy-middleware')
+
 const path = require('path')
 // const util = require('util')
 process.env.SYNTAX = process.argv[2] == "--jsx" ? "jsx" : "template";
@@ -66,8 +67,23 @@ compiler.watch({
 let express = require('express');
 let app = express();
 // app.use(webpackDevMiddleware(compiler));
+// const proxyMiddlewareArr = []
 app.use(webpackHotMiddleware(compiler));
-app.use(proxyMiddleware);
+if(devServer && devServer.proxy) {
+    let proxyTable = devServer.proxy
+    Object.keys(proxyTable).forEach(path=> {
+        let proxyMiddleware = proxy(path, {
+            target: proxyTable[path]["target"],
+            changeOrigin: proxyTable[path]["changeOrigin"] == undefined? true : proxyTable[path]["changeOrigin"],
+            ws: true,
+            pathRewrite: proxyTable[path]["changeOrigin"] == undefined? {}: proxyTable[path]["pathRewrite"]
+        })
+        // proxyMiddlewareArr.push(proxyMiddleware)
+        app.use(proxyMiddleware)
+    })
+}
+
+// app.use(proxyMiddleware);
 //  handle static file
 app.use((req, res, next) => {
     if (req.path == "/") {

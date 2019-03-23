@@ -3,7 +3,6 @@ const baseConf = require('./webpack.base')
 const webpack = require('webpack');
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const devConf = require('../config/devConf.json')
 // console.log(merge(baseConf, CONF))
 module.exports = function(env) {
     const CONF = {

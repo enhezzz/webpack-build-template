@@ -7,4 +7,4 @@ const app = new Vue({
     store,
     render: (h) => h(App)
 })
-app.$mount('#app')
+app.$mount('#app');
